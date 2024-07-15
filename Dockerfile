@@ -4,9 +4,11 @@ WORKDIR /home/gradle/project
 COPY --chown=gradle:gradle . /home/gradle/project
 # Даем права на выполнение Gradle Wrapper
 RUN chmod +x gradlew
-RUN gradle clean build
+# Сборка проекта с отключением мониторинга VFS
+RUN ./gradlew build -Dorg.gradle.vfs.watch=false
 
-# Используем официальный образ OpenJDK для выполнения
+# Создаем финальный образ
 FROM openjdk:17-jdk-slim
-COPY --from=build /home/gradle/project/build/libs/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
-ENTRYPOINT ["java", "-jar", "/app/demo.jar"]
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar /app/app.jar
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
