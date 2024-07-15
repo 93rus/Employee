@@ -1,7 +1,9 @@
 # Используем официальный образ Gradle для сборки
 FROM gradle:7.2.0-jdk17 AS build
-COPY --chown=gradle:gradle . /home/gradle/project
 WORKDIR /home/gradle/project
+COPY --chown=gradle:gradle . /home/gradle/project
+# Даем права на выполнение Gradle Wrapper
+RUN chmod +x gradlew
 RUN gradle build --no-daemon
 
 # Используем официальный образ OpenJDK для выполнения
