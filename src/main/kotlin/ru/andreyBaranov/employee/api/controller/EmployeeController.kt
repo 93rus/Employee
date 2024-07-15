@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import ru.andreyBaranov.employee.api.repository.model.Employee
 import ru.andreyBaranov.employee.api.service.EmployeeService
-import java.util.Optional
 
 @RestController
 class EmployeeController(private val employeeService: EmployeeService) {
@@ -18,7 +17,7 @@ class EmployeeController(private val employeeService: EmployeeService) {
     fun getAllEmployee(): List<Employee> = employeeService.getAllEmployees()
 
     @GetMapping("/employee/{id}")
-    fun getEmployeeById(@PathVariable("id") employeeId: Long): Optional<Employee> =
+    fun getEmployeeById(@PathVariable("id") employeeId: Long): Employee =
         employeeService.getEmployeeById(employeeId)
 
     @PostMapping("/employee")

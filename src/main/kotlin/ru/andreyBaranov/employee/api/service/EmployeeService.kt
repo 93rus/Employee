@@ -5,15 +5,14 @@ import org.springframework.stereotype.Service
 import ru.andreyBaranov.employee.api.exceptions.EmployeeNotFoundException
 import ru.andreyBaranov.employee.api.repository.model.Employee
 import ru.andreyBaranov.employee.api.repository.EmployeeRepository
-import java.util.*
 
 @Service
 class EmployeeService(private val employeeRepository: EmployeeRepository) {
 
     fun getAllEmployees(): List<Employee> = employeeRepository.findAll()
 
-    fun getEmployeeById(employeeId: Long): Optional<Employee> = employeeRepository.findById(employeeId)
-        ?: throw EmployeeNotFoundException(HttpStatus.NOT_FOUND, "Сотрудник с $employeeId не найден")
+    fun getEmployeeById(taskId: Long): Employee = employeeRepository.findById(taskId)
+        .orElseThrow { EmployeeNotFoundException(HttpStatus.NOT_FOUND, "Задача с $taskId не найдена") }
 
     fun createEmployee(employee: Employee): Employee = employeeRepository.save(employee)
 
