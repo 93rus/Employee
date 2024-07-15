@@ -4,7 +4,7 @@ WORKDIR /home/gradle/project
 COPY --chown=gradle:gradle . /home/gradle/project
 # Даем права на выполнение Gradle Wrapper
 RUN chmod +x gradlew
-RUN gradle build --no-daemon
+RUN gradle clean build
 
 # Используем официальный образ OpenJDK для выполнения
 FROM openjdk:17-jdk-slim
